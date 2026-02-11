@@ -1,0 +1,45 @@
+
+Login :-
+ curl -X POST http://localhost:3000/auth/login -H "Content-Type: application/json" -d "{\"email\":\"avansingh085@gmail.com\",\"password\":\"password123\"}"
+
+   response:-
+        {"loginSessionId":"7aac7a8cf03ee6479bdc1238d6ad322dbb2f37c04378db158d92c8274a7d9d17"}
+   logs:-
+      POST /auth/login
+      [OTP] Session 7aac7a8cf03ee6479bdc1238d6ad322dbb2f37c04378db158d92c8274a7d9d17 generated: 387035
+       POST /auth/login -> 200 (18ms)
+
+
+
+Verify OTP :- 
+    curl -c cookies.txt -X POST http://localhost:3000/auth/verify-otp -H "Content-Type: application/json" -d "{\"loginSessionId\":\"7aac7a8cf03ee6479bdc1238d6ad322dbb2f37c04378db158d92c8274a7d9d17\",\"otp\":\"387035\"}"
+
+     response:-
+        {"message":"OTP verified"}
+     logs:-
+       POST /auth/verify-otp
+       POST /auth/verify-otp -> 200 (4ms)
+
+
+Get Token :-
+     curl -b cookies.txt -X POST http://localhost:3000/auth/token
+
+       response:-
+           {"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF2YW5zaW5naDA4NUBnbWFpbC5jb20iLCJpYXQiOjE3NzA4MzU4ODAsImV4cCI6MTc3MDgzOTQ4MH0.jlcN1ApeBY-kw9WquCwMv_apH7Id4inSfw4wR30ykcI"}
+       logs:-
+         POST /auth/token
+          POST /auth/token -> 200 (148ms) 
+
+
+Access Protected Route :-
+       curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF2YW5zaW5naDA4NUBnbWFpbC5jb20iLCJpYXQiOjE3NzA4MzU4ODAsImV4cCI6MTc3MDgzOTQ4MH0.jlcN1ApeBY-kw9WquCwMv_apH7Id4inSfw4wR30ykcI" http://localhost:3000/protected
+       
+       response:-
+          {"message":"Access granted","user":{"email":"avansingh085@gmail.com","iat":1770835880,"exp":1770839480},"success_flag":"7facabd52807a149"}
+        
+        logs:-
+             GET /protected
+             GET /protected -> 200 (154ms)
+
+
+         
