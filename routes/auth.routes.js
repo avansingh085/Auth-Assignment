@@ -1,12 +1,12 @@
 
-const express=require('express');
-const { login, authToken, verifyOtp, authProtected } = require('../controllers/auth.controllers.js');
-const auth = require('../middleware/auth.js');
-const router=express.Router();
+const express = require('express');
+const { login, authToken, verifyOtp } = require('../controllers/auth.controllers.js');
 
-router.post("/auth/login",login);
-router.post("/auth/token",authToken);
-router.post("/auth/verify-otp",verifyOtp);
-router.get("/protected",auth,authProtected);
+const router = express.Router();
 
-module.exports=router;
+router.post("/login", login);
+router.post("/token", authToken);
+router.post("/verify-otp", verifyOtp);
+
+
+module.exports = router;
